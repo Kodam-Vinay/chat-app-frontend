@@ -1,5 +1,9 @@
 import Auth from "../Pages/Auth";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import ProtectedRoute from "../utils/ProtectedRoute";
 import ErrorRoute from "./ErrorRoute";
 import MainChat from "../Pages/MainChat";
@@ -16,6 +20,10 @@ const router = createBrowserRouter([
         <MainChat />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: "/",
+    element: <Navigate to="/auth" />,
   },
   {
     path: "*",
