@@ -30,7 +30,6 @@ const ChatInfo = ({ recipientUser, user, activeChat }) => {
 
   useEffect(() => {
     socket.on("getMessage", (messageRes) => {
-      console.log(messages);
       const allMessages = [...messages, messageRes];
       activeChat?._id === messageRes?.chatId &&
         dispatch(storeActiveChatMessages(allMessages));
