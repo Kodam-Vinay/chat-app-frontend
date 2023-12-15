@@ -1,18 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import {
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
+import { persistReducer } from "redux-persist";
 import userSlice from "./slices/userSlice";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
 import navbarSlice from "./slices/navbarSlice";
 import chatSlice from "./slices/chatSlice";
+import socketSlice from "./slices/socketSlice";
 
 const persistConfig = {
   key: "user",
@@ -27,11 +20,10 @@ export default configureStore({
     persistedReducer: persistedReducer,
     navbar: navbarSlice,
     chat: chatSlice,
+    socket: socketSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false,
     }),
 });

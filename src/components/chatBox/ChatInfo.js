@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { IoSend } from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postRequest } from "../../utils/apiRequests";
 import { BACKEND_API } from "../../constants/constants";
 import Loader from "../Loader";
@@ -13,9 +13,28 @@ const ChatInfo = ({ recipientUser, messages, user, activeChat }) => {
   const dispatch = useDispatch();
 
   const [message, setMessage] = useState("");
+  const [newMessage, setNewMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(false);
+  const onlineUsers = useSelector((store) => store?.socket?.onlineUsers);
+  const socket = useSelector((store) => store?.socket?.socketServer);
+
+  useEffect(() => {
+    socket.emit("sendMessage", {
+      ...newMessage,
+      recipientId: recipientUser?._id,
+    });
+  }, [newMessage]);
+
+  useEffect(() => {
+    socket.on("getMessage", (messageRes) => {
+      const allMessages = [...messages, messageRes];
+      activeChat?._id === messageRes?.chatId &&
+        dispatch(storeActiveChatMessages(allMessages));
+    });
+    return () => socket.off("getMessage");
+  }, [socket, activeChat]);
 
   const handleSendMessage = async () => {
     const url = BACKEND_API + "messages";
@@ -33,6 +52,7 @@ const ChatInfo = ({ recipientUser, messages, user, activeChat }) => {
       url,
       requestBody,
     });
+    setNewMessage(response);
     setMessage("");
     const allMessages = [...messages, response];
     dispatch(storeActiveChatMessages(allMessages));
@@ -42,11 +62,16 @@ const ChatInfo = ({ recipientUser, messages, user, activeChat }) => {
 
   return (
     <div className="chat-box h-full w-full flex flex-col">
-      <div className="chat-header">
+      <div className="chat-header flex flex-col">
         <ToastContainer />
         <p className="font-bold">{recipientUser?.name}</p>
+        <p className="text-xs h-3 text-green-200">
+          {onlineUsers?.some(
+            (eachUser) => eachUser?.userId === recipientUser?._id
+          ) && "Active Now"}
+        </p>
       </div>
-      <div className="messages flex flex-col overflow-y-auto">
+      <div className="messages flex flex-col">
         {messages?.map((eachMessage) => (
           <div
             key={eachMessage?._id}
@@ -56,7 +81,7 @@ const ChatInfo = ({ recipientUser, messages, user, activeChat }) => {
                 : "message self-start flex-grow-0"
             }`}
           >
-            <p>{eachMessage?.text}</p>
+            <p className="max-w-[40%]">{eachMessage?.text}</p>
             <p className="message-footer">
               {moment(eachMessage?.createdAt).calendar()}
             </p>

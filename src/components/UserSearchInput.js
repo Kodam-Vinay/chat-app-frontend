@@ -14,6 +14,7 @@ const UserSearchInput = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store?.persistedReducer?.user?.user);
   const allChatUsers = useSelector((store) => store?.chat?.userChats);
+  const onlineUsers = useSelector((store) => store?.socket?.onlineUsers);
   const [searchInput, setSearchInput] = useState("");
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
@@ -45,13 +46,13 @@ const UserSearchInput = () => {
       }`}
     >
       <input
-        className="px-4 py-2 outline-none rounded-md w-full bg-transparent border"
+        className="px-4 py-2 outline-none rounded-md w-full bg-transparent border mb-3"
         type="search"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
         placeholder="Enter Email or User Id"
       />
-      <div className="flex items-center">
+      <div className="flex items-center overflow-x-auto">
         {searchInput &&
           result?.map((each) => (
             <div
@@ -59,7 +60,12 @@ const UserSearchInput = () => {
               key={each?._id}
               onClick={() => handleCreateChat(each)}
             >
-              <div className="h-2 w-2 bg-green-500 rounded-full self-end -ml-3 -mb-2"></div>
+              <div
+                className={`${
+                  onlineUsers?.some((user) => user?.userId === each?._id) &&
+                  "bg-green-500"
+                } h-2 w-2  rounded-full self-end -ml-3 -mb-2`}
+              ></div>
               <img
                 src={CLOUDINARY_IMAGE_ACCESS_URL + each?.image}
                 alt={each?.image}

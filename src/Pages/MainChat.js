@@ -6,12 +6,14 @@ import ChatError from "../components/chat/ChatError";
 import useGetAllUsers from "../hooks/useGetAllUsers";
 import ChatBox from "../components/chatBox/ChatBox";
 import useDeviceResize from "../hooks/useDeviceResize";
+import useSocketConnection from "../hooks/useSocketConnection";
 
 const MainChat = () => {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   const url = BACKEND_API + "users/find/";
   const result = useDeviceResize();
+  useSocketConnection();
 
   useGetAllUsers({ url, setError, setIsError });
 
