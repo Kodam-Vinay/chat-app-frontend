@@ -9,7 +9,7 @@ import Loader from "../Loader";
 import { storeActiveChatMessages } from "../../store/slices/chatSlice";
 import InputEmoji from "react-input-emoji";
 
-const ChatInfo = ({ recipientUser, messages, user, activeChat }) => {
+const ChatInfo = ({ recipientUser, user, activeChat }) => {
   const dispatch = useDispatch();
 
   const [message, setMessage] = useState("");
@@ -19,6 +19,7 @@ const ChatInfo = ({ recipientUser, messages, user, activeChat }) => {
   const [error, setError] = useState(false);
   const onlineUsers = useSelector((store) => store?.socket?.onlineUsers);
   const socket = useSelector((store) => store?.socket?.socketServer);
+  const messages = useSelector((store) => store?.chat?.activeChatMessages);
 
   useEffect(() => {
     socket.emit("sendMessage", {
@@ -29,6 +30,7 @@ const ChatInfo = ({ recipientUser, messages, user, activeChat }) => {
 
   useEffect(() => {
     socket.on("getMessage", (messageRes) => {
+      console.log(messages);
       const allMessages = [...messages, messageRes];
       activeChat?._id === messageRes?.chatId &&
         dispatch(storeActiveChatMessages(allMessages));

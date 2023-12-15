@@ -15,7 +15,6 @@ const ChatBox = () => {
   const user = useSelector((store) => store?.persistedReducer?.user?.user);
   const url = BACKEND_API + "messages/" + activeChat?._id;
   useGetMessages({ url, setError, setIsError });
-  const messages = useSelector((store) => store?.chat?.activeChatMessages);
   const recipientUser = useFetchReciverUser({
     chat: activeChat,
     user,
@@ -39,7 +38,6 @@ const ChatBox = () => {
         </div>
       ) : (
         <ChatInfo
-          messages={messages}
           recipientUser={recipientUser}
           user={user}
           activeChat={activeChat}

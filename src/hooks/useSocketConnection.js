@@ -10,7 +10,7 @@ const useSocketConnection = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const newSocket = io(process.env.REACT_APP_SOCKET_CONNECTION);
+    const newSocket = io("http://localhost:8000");
     setSocket(newSocket);
     return () => {
       newSocket.off();
