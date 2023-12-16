@@ -17,11 +17,14 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((store) => store?.persistedReducer?.user?.user);
   const allChatUsers = useSelector((store) => store?.chat?.userChats);
+  const notifications = useSelector(
+    (store) => store?.notification?.notifications
+  );
   const result = useDeviceResize();
 
   useEffect(() => {
     getData();
-  }, [user]);
+  }, [user, notifications]);
 
   const getData = async () => {
     const url = BACKEND_API + "chats/" + user?._id;

@@ -6,6 +6,7 @@ import { combineReducers } from "redux";
 import navbarSlice from "./slices/navbarSlice";
 import chatSlice from "./slices/chatSlice";
 import socketSlice from "./slices/socketSlice";
+import notificationSlice from "./slices/notificationSlice";
 
 const persistConfig = {
   key: "user",
@@ -21,9 +22,11 @@ export default configureStore({
     navbar: navbarSlice,
     chat: chatSlice,
     socket: socketSlice,
+    notification: notificationSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
+  devTools: false,
 });

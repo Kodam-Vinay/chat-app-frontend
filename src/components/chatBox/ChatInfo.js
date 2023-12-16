@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { IoSend } from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,8 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { postRequest } from "../../utils/apiRequests";
 import { BACKEND_API } from "../../constants/constants";
 import Loader from "../Loader";
-import { storeActiveChatMessages } from "../../store/slices/chatSlice";
+import {
+  storeActiveChatMessages,
+  storeNewMessage,
+} from "../../store/slices/chatSlice";
 import InputEmoji from "react-input-emoji";
+import { v4 as uniqueId } from "uuid";
 
 const ChatInfo = ({ recipientUser, user, activeChat }) => {
   const dispatch = useDispatch();
@@ -16,10 +20,19 @@ const ChatInfo = ({ recipientUser, user, activeChat }) => {
   const [newMessage, setNewMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const onlineUsers = useSelector((store) => store?.socket?.onlineUsers);
   const socket = useSelector((store) => store?.socket?.socketServer);
   const messages = useSelector((store) => store?.chat?.activeChatMessages);
+
+  const scroll = useRef();
+  useEffect(() => {
+    dispatch(storeNewMessage(newMessage));
+  }, [newMessage]);
+
+  useEffect(() => {
+    scroll?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [newMessage]);
 
   useEffect(() => {
     socket.emit("sendMessage", {
@@ -34,7 +47,10 @@ const ChatInfo = ({ recipientUser, user, activeChat }) => {
       activeChat?._id === messageRes?.chatId &&
         dispatch(storeActiveChatMessages(allMessages));
     });
-    return () => socket.off("getMessage");
+
+    return () => {
+      socket.off("getMessage");
+    };
   }, [socket, activeChat]);
 
   const handleSendMessage = async () => {
@@ -75,14 +91,16 @@ const ChatInfo = ({ recipientUser, user, activeChat }) => {
       <div className="messages flex flex-col">
         {messages?.map((eachMessage) => (
           <div
-            key={eachMessage?._id}
+            key={uniqueId()}
             className={`${
               eachMessage?.senderId === user?._id
                 ? "message self self-end flex-grow-0"
                 : "message self-start flex-grow-0"
             }`}
           >
-            <p className="max-w-[40%]">{eachMessage?.text}</p>
+            <p ref={scroll} className="max-w-[40%]">
+              {eachMessage?.text}
+            </p>
             <p className="message-footer">
               {moment(eachMessage?.createdAt).calendar()}
             </p>

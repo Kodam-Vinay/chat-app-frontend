@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAllUsers } from "../store/slices/chatSlice";
+import { addAllUsers, addTotalUsers } from "../store/slices/chatSlice";
 
 const useGetAllUsers = ({ url, setError, setIsError }) => {
   const dispatch = useDispatch();
@@ -42,6 +42,7 @@ const useGetAllUsers = ({ url, setError, setIsError }) => {
           });
           dispatch(addAllUsers(filterUsers));
         }
+        dispatch(addTotalUsers(data));
       }
     } catch (error) {
       console.log(error);

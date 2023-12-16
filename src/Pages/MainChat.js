@@ -7,6 +7,7 @@ import useGetAllUsers from "../hooks/useGetAllUsers";
 import ChatBox from "../components/chatBox/ChatBox";
 import useDeviceResize from "../hooks/useDeviceResize";
 import useSocketConnection from "../hooks/useSocketConnection";
+import useGetNotifications from "../hooks/useGetNotifications";
 
 const MainChat = () => {
   const [isError, setIsError] = useState(false);
@@ -14,6 +15,7 @@ const MainChat = () => {
   const url = BACKEND_API + "users/find/";
   const result = useDeviceResize();
   useSocketConnection();
+  useGetNotifications();
 
   useGetAllUsers({ url, setError, setIsError });
 

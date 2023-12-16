@@ -31,7 +31,7 @@ const ChatBox = () => {
   if (isError) return <ChatError error={error} />;
 
   return (
-    <div className="mb-2 p-2 my-3 w-full h-full flex flex-col">
+    <div className="mb-2 p-2 my-2 w-full flex flex-col mx-2">
       {isLoading ? (
         <div className="m-auto">
           <Loader />
