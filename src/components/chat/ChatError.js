@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 const ChatError = ({ error }) => {
   const navigate = useNavigate();
-  console.log(error);
   return (
     <div className="h-full w-full flex flex-col items-center justify-center">
       <p className="font-bold text-white mb-10">An Error Occured</p>
