@@ -6,6 +6,7 @@ const useGetNotifications = () => {
   const dispatch = useDispatch();
   const socket = useSelector((store) => store?.socket?.socketServer);
   const activeChat = useSelector((store) => store?.chat?.activeChat);
+
   const notifications = useSelector(
     (store) => store?.notification?.allNotifications
   );
