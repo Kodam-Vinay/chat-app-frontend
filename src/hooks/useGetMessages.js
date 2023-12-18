@@ -6,7 +6,6 @@ const useGetMessages = ({ url, setIsError, setError }) => {
   const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
   const activeChat = useSelector((store) => store?.chat?.activeChat);
-  const allMessages = useSelector((store) => store?.chat?.activeChatMessages);
   useEffect(() => {
     getData();
   }, [activeChat]);

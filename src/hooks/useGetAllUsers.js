@@ -7,9 +7,10 @@ const useGetAllUsers = ({ url, setError, setIsError }) => {
 
   const userChats = useSelector((store) => store?.chat?.userChats);
   const user = useSelector((store) => store?.persistedReducer?.user?.user);
+  const allUsers = useSelector((store) => store?.chat?.totalUsers);
 
   useEffect(() => {
-    getData();
+    if (!allUsers.length > 0) getData();
   }, [userChats]);
 
   const getData = async () => {

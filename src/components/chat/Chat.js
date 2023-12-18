@@ -23,7 +23,7 @@ const Chat = () => {
   const result = useDeviceResize();
 
   useEffect(() => {
-    !allChatUsers && getData();
+    if (!allChatUsers.length > 0) getData();
   }, [user, notifications]);
 
   const getData = async () => {

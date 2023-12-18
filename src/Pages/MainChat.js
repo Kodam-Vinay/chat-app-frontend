@@ -23,9 +23,11 @@ const MainChat = () => {
   if (isError) return <ChatError error={error} />;
 
   return (
-    <div className="h-full w-[99%] flex flex-col overflow-hidden">
+    <div className={`h-full  flex flex-col overflow-hidden w-full`}>
       <Navbar />
-      <div className={`h-[90%] ${result?.width > 700 && "flex"}`}>
+      <div
+        className={`h-[90%] w-[99%] ${result?.width > 700 && "flex w-full"}`}
+      >
         {result.width <= 700 && activeChat ? (
           <ChatBox />
         ) : result.width > 700 && activeChat ? (
