@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { getRequest } from "../utils/apiRequests";
 import { BACKEND_API } from "../constants/constants";
 import ChatError from "../components/chat/ChatError";
-import { useSelector } from "react-redux";
 
 const useFetchReciverUser = ({ chat, user, setIsLoading }) => {
   const [recipientUser, setRecipientUser] = useState(null);

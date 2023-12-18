@@ -28,5 +28,5 @@ export default configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
-  devTools: false,
+  // devTools: false,
 });

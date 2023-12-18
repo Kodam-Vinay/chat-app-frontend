@@ -21,6 +21,7 @@ const UserSearchInput = () => {
   const [isLoading, setIsLoading] = useState(false);
   const size = useDeviceResize();
   const result = useFilterUsers({ searchInput });
+
   const handleCreateChat = async (chatUser) => {
     const url = BACKEND_API + "chats";
     const createChat = await postRequest({
@@ -76,7 +77,7 @@ const UserSearchInput = () => {
           ))}
       </div>
       <div className="flex items-center">
-        {searchInput && result && result.length < 1 && (
+        {searchInput && result && result?.length < 1 && (
           <div className="text-center">No Users Found</div>
         )}
       </div>

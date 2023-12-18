@@ -33,7 +33,7 @@ const router = createBrowserRouter([
 
 const Body = () => {
   return (
-    <div className="bg-blue-200 h-screen w-screen overflow-x-hidden">
+    <div className="bg-blue-200 h-[99vh] w-[99vw] overflow-hidden">
       <RouterProvider router={router} />
     </div>
   );

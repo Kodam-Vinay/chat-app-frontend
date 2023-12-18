@@ -8,6 +8,7 @@ import ChatBox from "../components/chatBox/ChatBox";
 import useDeviceResize from "../hooks/useDeviceResize";
 import useSocketConnection from "../hooks/useSocketConnection";
 import useGetNotifications from "../hooks/useGetNotifications";
+import { useSelector } from "react-redux";
 
 const MainChat = () => {
   const [isError, setIsError] = useState(false);
@@ -16,17 +17,25 @@ const MainChat = () => {
   const result = useDeviceResize();
   useSocketConnection();
   useGetNotifications();
-
+  const activeChat = useSelector((store) => store?.chat?.activeChat);
   useGetAllUsers({ url, setError, setIsError });
 
   if (isError) return <ChatError error={error} />;
 
   return (
-    <div className="h-full w-full flex flex-col overflow-y-hidden">
+    <div className="h-full w-[99%] flex flex-col overflow-hidden">
       <Navbar />
-      <div className="flex h-full">
-        <Chat />
-        {result?.width > 700 && <ChatBox />}
+      <div className={`h-[90%] ${result?.width > 700 && "flex"}`}>
+        {result.width <= 700 && activeChat ? (
+          <ChatBox />
+        ) : result.width > 700 && activeChat ? (
+          <>
+            <Chat />
+            <ChatBox />
+          </>
+        ) : (
+          <Chat />
+        )}
       </div>
     </div>
   );

@@ -1,17 +1,16 @@
 import React, { useCallback } from "react";
+import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
 import { CLOUDINARY_IMAGE_ACCESS_URL } from "../../constants/constants";
 import useDeviceResize from "../../hooks/useDeviceResize";
-import { useDispatch, useSelector } from "react-redux";
 import { addToNotifications } from "../../store/slices/notificationSlice";
 import { checkUnreadNotifications } from "../../utils/checkUnreadNotifications";
-import moment from "moment";
 
 const ReusableChat = ({ data, latestMessage }) => {
   const dispatch = useDispatch();
   const result = useDeviceResize();
   const onlineUsers = useSelector((store) => store?.socket?.onlineUsers);
   const checkIsOnline = onlineUsers?.some((user) => user?.userId === data?._id);
-
   const notifications = useSelector(
     (store) => store?.notification?.allNotifications
   );
@@ -43,19 +42,21 @@ const ReusableChat = ({ data, latestMessage }) => {
     return message;
   };
 
+  const handleOnClickChat = () => {
+    if (filterThisUserNotifications.length !== 0) {
+      markParticularUserNotificationsAsRead({
+        userNotifications: filterThisUserNotifications,
+        allNotifications: notifications,
+      });
+    }
+  };
+
   return (
     <div
       className={`flex p-2 xs:p-4 justify-between cursor-pointer my-3 ${
         result?.width < 700 ? "max-w-[700px]" : "max-w-sm"
       }`}
-      onClick={() => {
-        if (filterThisUserNotifications.length !== 0) {
-          markParticularUserNotificationsAsRead({
-            userNotifications: filterThisUserNotifications,
-            allNotifications: notifications,
-          });
-        }
-      }}
+      onClick={handleOnClickChat}
     >
       <div className="flex">
         <img
@@ -70,7 +71,8 @@ const ReusableChat = ({ data, latestMessage }) => {
       </div>
       <div className="flex flex-col -mt-2">
         <p className="self-end text-sm">
-          {moment(latestMessage?.createdAt).calendar()}
+          {latestMessage?.createdAt &&
+            moment(latestMessage?.createdAt).calendar()}
         </p>
         {filterThisUserNotifications?.length > 0 && (
           <p

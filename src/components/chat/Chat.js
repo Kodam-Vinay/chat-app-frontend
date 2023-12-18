@@ -23,7 +23,7 @@ const Chat = () => {
   const result = useDeviceResize();
 
   useEffect(() => {
-    getData();
+    !allChatUsers && getData();
   }, [user, notifications]);
 
   const getData = async () => {
@@ -46,7 +46,7 @@ const Chat = () => {
   if (isError) return <ChatError error={error} />;
   return (
     <div
-      className={`p-2 w-full ${
+      className={`p-2 w-full h-full overflow-y-auto ${
         result?.width < 700 ? "max-w-[700px]" : "max-w-sm"
       }`}
     >
