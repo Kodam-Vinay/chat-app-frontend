@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useFetchReciverUser from "../../hooks/useFetchReciverUser";
 import { useState } from "react";
 import useGetMessages from "../../hooks/useGetMessages";
@@ -7,8 +7,11 @@ import ChatError from "../chat/ChatError";
 import Loader from "../Loader";
 import ChatInfo from "./ChatInfo";
 import useDeviceResize from "../../hooks/useDeviceResize";
+import { makeAsActiveChat } from "../../store/slices/chatSlice";
 
 const ChatBox = () => {
+  const dispatch = useDispatch();
+
   const deviceSize = useDeviceResize();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,6 +20,10 @@ const ChatBox = () => {
   const user = useSelector((store) => store?.persistedReducer?.user?.user);
   const url = BACKEND_API + "messages/" + activeChat?._id;
   useGetMessages({ url, setError, setIsError });
+
+  window.onpopstate = function () {
+    if (deviceSize?.width < 700) dispatch(makeAsActiveChat(null));
+  };
 
   const recipientUser = useFetchReciverUser({
     chat: activeChat,

@@ -39,7 +39,7 @@ const ChatInfo = ({ recipientUser, user, activeChat }) => {
   }, [newMessage, activeChat, messages]);
 
   useEffect(() => {
-    socket.emit("sendMessage", {
+    socket?.emit("sendMessage", {
       ...newMessage,
       recipientId: recipientUser?._id,
     });
