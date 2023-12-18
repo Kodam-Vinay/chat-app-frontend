@@ -86,7 +86,7 @@ const ChatInfo = ({ recipientUser, user, activeChat }) => {
       className={`${
         deviceSize.width > 700
           ? "chat-box h-full w-full flex flex-col"
-          : "h-full flex flex-col"
+          : "h-[90%] flex flex-col"
       }`}
     >
       <div className="chat-header flex items-center">
