@@ -36,7 +36,7 @@ const ChatInfo = ({ recipientUser, user, activeChat }) => {
 
   useEffect(() => {
     scroll?.current?.scrollIntoView({ behavior: "smooth" });
-  }, [newMessage, activeChat, messages]);
+  }, [newMessage, activeChat]);
 
   useEffect(() => {
     socket?.emit("sendMessage", {
