@@ -82,13 +82,7 @@ const ChatInfo = ({ recipientUser, user, activeChat }) => {
   if (isError) toast(error ? error : "Failed To Send Message");
 
   return (
-    <div
-      className={`${
-        deviceSize.width > 700
-          ? "chat-box h-full w-full flex flex-col"
-          : "h-[90%] flex flex-col"
-      }`}
-    >
+    <div className="chat-box h-full w-full flex flex-col">
       <div className="chat-header flex items-center">
         <ToastContainer />
         {deviceSize.width <= 700 && (

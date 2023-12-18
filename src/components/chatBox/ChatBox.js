@@ -36,7 +36,11 @@ const ChatBox = () => {
   return (
     <>
       {activeChat && (
-        <div className="mb-2 p-2 my-2 w-full flex flex-col h-full">
+        <div
+          className={`mb-2 p-2 my-2 w-full flex flex-col ${
+            deviceSize?.width > 700 ? "h-full" : "h-[90%]"
+          }`}
+        >
           {isLoading ? (
             <div className="m-auto">
               <Loader />
