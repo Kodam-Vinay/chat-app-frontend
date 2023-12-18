@@ -6,7 +6,7 @@ const useFilterUsers = ({ searchInput }) => {
   const allUsers = useSelector((store) => store?.chat?.allUsers);
 
   useEffect(() => {
-    !allUsers && getData();
+    getData();
   }, [searchInput, allUsers]);
 
   const getData = () => {

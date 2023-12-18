@@ -8,7 +8,7 @@ const useGetMessages = ({ url, setIsError, setError }) => {
   const activeChat = useSelector((store) => store?.chat?.activeChat);
   const allMessages = useSelector((store) => store?.chat?.activeChatMessages);
   useEffect(() => {
-    !allMessages && getData();
+    getData();
   }, [activeChat]);
 
   const getData = async () => {
