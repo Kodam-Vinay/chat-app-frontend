@@ -9,6 +9,7 @@ const chatSlice = createSlice({
     activeChat: null,
     activeChatMessages: [],
     newMessage: null,
+    getMessage: null,
   },
   reducers: {
     addAllUsers: (state, action) => {
@@ -29,6 +30,9 @@ const chatSlice = createSlice({
     storeNewMessage: (state, action) => {
       state.newMessage = action.payload;
     },
+    storeGetMessage: (state, action) => {
+      state.getMessage = action.payload;
+    },
   },
 });
 export const {
@@ -38,5 +42,6 @@ export const {
   makeAsActiveChat,
   storeActiveChatMessages,
   storeNewMessage,
+  storeGetMessage,
 } = chatSlice.actions;
 export default chatSlice.reducer;

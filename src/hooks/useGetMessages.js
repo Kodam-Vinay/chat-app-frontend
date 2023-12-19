@@ -7,12 +7,11 @@ const useGetMessages = ({ url, setIsError, setError }) => {
   const [messages, setMessages] = useState([]);
   const activeChat = useSelector((store) => store?.chat?.activeChat);
   const newMessage = useSelector((store) => store?.chat?.newMessage);
-  const allMessages = useSelector((store) => store?.chat?.activeChatMessages);
-  // console.log(allMessages);
+  const getMessage = useSelector((store) => store?.chat?.getMessage);
 
   useEffect(() => {
     getData();
-  }, [activeChat, newMessage, allMessages]);
+  }, [activeChat, newMessage, getMessage]);
 
   const getData = async () => {
     try {

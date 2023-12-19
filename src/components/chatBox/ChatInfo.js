@@ -11,6 +11,7 @@ import Loader from "../Loader";
 import {
   makeAsActiveChat,
   storeActiveChatMessages,
+  storeGetMessage,
   storeNewMessage,
 } from "../../store/slices/chatSlice";
 import useDeviceResize from "../../hooks/useDeviceResize";
@@ -36,7 +37,7 @@ const ChatInfo = ({ recipientUser, user, activeChat }) => {
 
   useEffect(() => {
     scroll?.current?.scrollIntoView({ behavior: "smooth" });
-  }, [newMessage, activeChat, messages?.length > 0]);
+  }, [newMessage, activeChat, messages]);
 
   useEffect(() => {
     socket?.emit("sendMessage", {
@@ -47,6 +48,7 @@ const ChatInfo = ({ recipientUser, user, activeChat }) => {
 
   useEffect(() => {
     socket.on("getMessage", (messageRes) => {
+      dispatch(storeGetMessage(messageRes));
       const allMessages = [...messages, messageRes];
       activeChat?._id === messageRes?.chatId &&
         dispatch(storeActiveChatMessages(allMessages));
